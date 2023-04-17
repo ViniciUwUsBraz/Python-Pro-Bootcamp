@@ -14,11 +14,11 @@ class Paddle(turtle.Turtle):
 
     def Up(self):
         if self.ycor()<260:
-            self.forward(25)
+            self.forward(35)
 
     def Down(self):
         if self.ycor()>-260:
-            self.backward(25)
+            self.backward(35)
 
 class Ball(turtle.Turtle):
     def __init__(self):
@@ -28,9 +28,13 @@ class Ball(turtle.Turtle):
         self.penup()
         self.setheading(random.randint(110,210))
         self.shapesize(1,1)
+        self.speed=18
+
+    def speed_up(self):
+        self.speed+=1
 
     def move(self):
-        self.forward(20)
+        self.forward(self.speed)
 
     def change_direction(self):
         self.setheading(360-self.heading())
@@ -42,6 +46,7 @@ class Ball(turtle.Turtle):
     def reset(self):
         self.setpos(0,0)
         self.setheading(random.randint(1,360))
+        self.speed=18
 
 class Score(turtle.Turtle):
     def __init__(self,position):
@@ -59,13 +64,13 @@ class Score(turtle.Turtle):
     def score_add(self):
         self.score+=1
 
-
 line = turtle.Turtle()
 line.hideturtle()
 line.penup()
 line.pencolor("white")
 line.setpos(0,-300)
 line.setheading(90)
+
 for i in range(30):
     line.forward(20)
     line.pendown()
@@ -93,12 +98,12 @@ screen.onkey(p2.Down,"s")
 score1.draw_score()
 score2.draw_score()
 
-time.sleep(1)
 while(1):
     time.sleep(0.1)
     screen.update()
 
-    if ball.distance(p1)<30 or ball.distance(p2)<30:
+    if ball.distance(p1)<40 or ball.distance(p2)<40:
+        ball.speed_up()
         ball.change_direction()
 
     if ball.ycor()>290 or ball.ycor()<-290:
@@ -109,7 +114,6 @@ while(1):
         score2.score_add()
         score2.draw_score()
         ball.reset()
-
     elif ball.xcor()>400:
         score1.clear()
         score1.score_add()
